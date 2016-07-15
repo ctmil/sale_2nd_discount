@@ -34,10 +34,11 @@ class sale_order_line(osv.osv):
 	_inherit = 'sale.order.line'
 
 	def _calc_line_base_price(self, cr, uid, line, context=None):
-		if line.second_discount > 0:
+		if line.second_discount == 0:
 			return line.price_unit * (1 - (line.discount or 0.0) / 100.0)
 		else:
 			temp_value = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
 			return temp_value * (1 - (line.second_discount or 0.0) / 100.0)
 
 sale_order_line()
+

@@ -18,3 +18,14 @@ class sale_order_line(models.Model):
 	def _check_second_discount(self):
 		if self.second_discount > 99.9 or self.second_discount < 0:
 			raise ValidationError('El valor a ingresar debe ser menor a 100 y mayor a 0')
+
+class account_invoice_line(models.Model):
+        _inherit = 'account.invoice.line'
+
+	second_discount = fields.Float(string='2do descuento')
+
+	@api.one
+	@api.constrains('second_discount')
+	def _check_second_discount(self):
+		if self.second_discount > 99.9 or self.second_discount < 0:
+			raise ValidationError('El valor a ingresar debe ser menor a 100 y mayor a 0')
