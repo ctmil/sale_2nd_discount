@@ -2,13 +2,11 @@
 <openerp>
     <data>
 
-        <record model="ir.ui.view" id="view_order_form_portal">
-            <field name="name">sale.order.form.portal</field>
+        <record model="ir.ui.view" id="view_order_form_discount">
+            <field name="name">sale.order.form.discount</field>
             <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
-            <field name="groups_id" eval="[(6, 0, [ref('base.group_portal') ])]"/>
+            <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                </button>
                 <xpath expr="//page[@string='Order Lines']/field[@name='order_line']/tree[@string='Sales Order Lines']/field[@name='discount']" position="after">
 			<field name="second_discount" />
                 </xpath>
