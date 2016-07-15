@@ -1,5 +1,4 @@
-
-m openerp import models, fields, api, _
+from openerp import models, fields, api, _
 from openerp.osv import osv
 from openerp.exceptions import except_orm, ValidationError
 from StringIO import StringIO
