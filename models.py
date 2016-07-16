@@ -53,7 +53,7 @@ class account_invoice_line(models.Model):
 			res.append(mres)
 			tax_code_found = False
 			taxes = line.invoice_line_tax_id.compute_all(
-				(line.price_unit * (1.0 - (line.discount or 0.0) / 100.0)),
+				(line.price_unit * (1.0 - (line.discount or 0.0) / 100.0) * (1.0 - (line.second_discount or 0.0) / 100.0)),
 		                line.quantity, line.product_id, inv.partner_id)['taxes']
 			for tax in taxes:
 				if inv.type in ('out_invoice', 'in_invoice'):
@@ -85,7 +85,7 @@ class account_invoice_line(models.Model):
 		company_currency = invoice.company_id.currency_id
 		for line in invoice.invoice_line:
 			taxes = line.invoice_line_tax_id.compute_all(
-				(line.price_unit * (1 - (line.discount or 0.0) / 100.0)),
+				(line.price_unit * (1 - (line.discount or 0.0) / 100.0) * (1-(line.second_discount or 0.0)/100.0)  ),
 				line.quantity, line.product_id, invoice.partner_id)['taxes']
 			for tax in taxes:
 				val = {
