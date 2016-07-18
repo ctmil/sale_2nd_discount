@@ -42,3 +42,26 @@ class sale_order_line(osv.osv):
 
 sale_order_line()
 
+class stock_move(osv.osv):
+	_inherit = "stock.move"
+
+
+	def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
+        	res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
+	        if inv_type in ('out_invoice', 'out_refund') and move.procurement_id and move.procurement_id.sale_line_id:
+        	    sale_line = move.procurement_id.sale_line_id
+	            res['invoice_line_tax_id'] = [(6, 0, [x.id for x in sale_line.tax_id])]
+        	    res['account_analytic_id'] = sale_line.order_id.project_id and sale_line.order_id.project_id.id or False
+	            res['discount'] = sale_line.discount
+	            res['second_discount'] = sale_line.second_discount
+        	    if move.product_id.id != sale_line.product_id.id:
+                	res['price_unit'] = self.pool['product.pricelist'].price_get(
+	                    cr, uid, [sale_line.order_id.pricelist_id.id],
+        	            move.product_id.id, move.product_uom_qty or 1.0,
+                	    sale_line.order_id.partner_id, context=context)[sale_line.order_id.pricelist_id.id]
+	            else:
+        	        res['price_unit'] = sale_line.price_unit
+	            uos_coeff = move.product_uom_qty and move.product_uos_qty / move.product_uom_qty or 1.0
+        	    res['price_unit'] = res['price_unit'] / uos_coeff
+	        return res
+
