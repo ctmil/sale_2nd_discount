@@ -75,7 +75,7 @@ class account_invoice_line(models.Model):
 				res[-1]['tax_code_id'] = tax_code_id
 				res[-1]['tax_amount'] = currency.compute(tax_amount, company_currency)
 
-        return res
+	        return res
 
 
 	@api.v8
