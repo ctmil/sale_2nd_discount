@@ -18,9 +18,12 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@string='Invoice Lines']/field[@name='order_line']/tree[@string='Invoice Lines']/field[@name='discount']" position="after">
+		<field name="discount">
 			<field name="second_discount" />
-                </xpath>
+		</field>
+                <!--xpath expr="//page[@string='Invoice Lines']/field[@name='invoice_line']/tree[@string='Invoice Lines']/field[@name='discount']" position="after">
+			<field name="second_discount" />
+                </xpath -->
 	    </field>
 	</record>
 
